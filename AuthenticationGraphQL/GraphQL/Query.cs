@@ -2,7 +2,7 @@
 using AuthenticationGraphQL.GraphQL.Types;
 using AuthenticationGraphQL.Models;
 using AuthenticationGraphQL.Services;
-using Microsoft.AspNetCore.Authorization;
+using HotChocolate.Authorization;
 
 
 namespace AuthenticationGraphQL.GraphQL
@@ -19,7 +19,7 @@ namespace AuthenticationGraphQL.GraphQL
             return "Heelloo";
         }
 
-        [Authorize]
+        [Authorize(Roles = new[] { "admin" })]
         public async Task<IEnumerable<UserDto>> GetUsers()
         {
             return await _userService.GetUsersAsync();
