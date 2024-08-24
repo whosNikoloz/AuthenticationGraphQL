@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AuthenticationGraphQL.Dto.Password
+namespace AuthenticationGraphQL.Dto.User.Password
 {
     public class ResetPasswordRequest
     {

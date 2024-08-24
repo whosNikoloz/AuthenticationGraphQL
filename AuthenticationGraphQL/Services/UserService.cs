@@ -1,12 +1,11 @@
 ﻿using AuthenticationGraphQL.Models;
 using Microsoft.AspNetCore.Mvc;
 using AuthenticationGraphQL.Dto;
-using AuthenticationGraphQL.Dto.Password;
-using AuthenticationGraphQL.Dto.LoginRequest;
+using AuthenticationGraphQL.Dto.User;
+using AuthenticationGraphQL.Dto.User.Password;
+using AuthenticationGraphQL.Dto.User.LoginRequest;
 using AuthenticationGraphQL.Data;
 using Microsoft.EntityFrameworkCore;
-using Azure.Core;
-using System.Security.Claims;
 using AutoMapper;
 
 namespace AuthenticationGraphQL.Services
@@ -18,14 +17,16 @@ namespace AuthenticationGraphQL.Services
         private readonly IStatiFuncs _staticFuncs;
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
+        private readonly IUserFollowService _userFollowService;
 
-        public UserService(IConfiguration configuration, AppDbContext db, IStatiFuncs staticFuncs, IEmailService emailService,IMapper mapper)
+        public UserService(IConfiguration configuration, AppDbContext db, IStatiFuncs staticFuncs, IEmailService emailService,IMapper mapper , IUserFollowService userFollowService)
         {
             _configuration = configuration;
             _db = db;
             _staticFuncs = staticFuncs;
             _emailService = emailService;
             _mapper = mapper;
+            _userFollowService = userFollowService;
         }
 
         public async Task<IActionResult> ChangeEmailAsync(string email,int userid)
@@ -329,10 +330,14 @@ namespace AuthenticationGraphQL.Services
                 user.Email = $"{user.Email} ({user.OAuthProvider})";
             }
 
+   
 
             string jwttoken = _staticFuncs.CreateToken(user);
 
             UserDto userDto = _mapper.Map<UserModel, UserDto>(user);
+
+            userDto.Followers = await _userFollowService.GetFollowersAsync(userId);
+            userDto.Following = await _userFollowService.GetFollowingAsync(userId);
 
             return new ResponseUser
             {
@@ -345,6 +350,12 @@ namespace AuthenticationGraphQL.Services
         public async Task<IEnumerable<UserDto>> GetUsersAsync()
         {
             var DtoUsers = await _db.Users.Select(u => _mapper.Map<UserModel, UserDto>(u)).ToListAsync();
+
+            foreach (var userDto in DtoUsers) {
+                userDto.Followers = await _userFollowService.GetFollowersAsync(userDto.UserId);
+                userDto.Following = await _userFollowService.GetFollowingAsync(userDto.UserId);
+            }
+
             return DtoUsers;
         }
 

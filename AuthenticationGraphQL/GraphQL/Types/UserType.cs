@@ -20,6 +20,16 @@ namespace AuthenticationGraphQL.GraphQL.Types
             Field(x => x.OAuthProvider, nullable: true).Description("The OAuth provider (e.g., Google) used for authentication.");
             Field(x => x.OAuthProviderId, nullable: true).Description("The unique identifier provided by the OAuth provider.");
             Field(x => x.LastActivity).Description("The date and time of the user's last activity.");
+            // Adding followers and following fields
+            Field<ListGraphType<UserType>>(
+                name: "followers",
+                resolve: context => context.Source.Followers
+            );
+
+            Field<ListGraphType<UserType>>(
+                name: "following",
+                resolve: context => context.Source.Following
+            );
         }
     }
 }

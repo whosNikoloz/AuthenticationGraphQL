@@ -1,6 +1,7 @@
 ﻿using AuthenticationGraphQL.Dto;
-using AuthenticationGraphQL.Dto.LoginRequest;
-using AuthenticationGraphQL.Dto.Password;
+using AuthenticationGraphQL.Dto.User;
+using AuthenticationGraphQL.Dto.User.LoginRequest;
+using AuthenticationGraphQL.Dto.User.Password;
 using AuthenticationGraphQL.Models;
 using Microsoft.AspNetCore.Mvc;
 

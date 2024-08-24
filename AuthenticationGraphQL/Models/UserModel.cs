@@ -4,15 +4,19 @@ namespace AuthenticationGraphQL.Models
 {
     public class UserModel
     {
+
         [Key]
         public int UserId { get; set; }
 
         [StringLength(50, MinimumLength = 4, ErrorMessage = "Username must be between 4 and 50 characters.")]
         public string? UserName { get; set; }
+
         [StringLength(50)]
         public string? FirstName { get; set; }
+
         [StringLength(50)]
         public string? LastName { get; set; }
+
         [Required]
         [EmailAddress]
         public string? Email { get; set; }
@@ -37,11 +41,14 @@ namespace AuthenticationGraphQL.Models
         public string? Role { get; set; }
 
         // OAuth-specific properties
-        public string? OAuthProvider { get; set; } // Store the OAuth provider (e.g., "Google")
-        public string? OAuthProviderId { get; set; } // Store the unique identifier provided by the OAuth provider
-
+        public string? OAuthProvider { get; set; }
+        public string? OAuthProviderId { get; set; }
 
         public DateTime LastActivity { get; set; }
+
+        // Navigation properties for following/followers
+        public ICollection<UserFollowModel> Followers { get; set; } = new List<UserFollowModel>();
+        public ICollection<UserFollowModel> Following { get; set; } = new List<UserFollowModel>();
 
     }
 }

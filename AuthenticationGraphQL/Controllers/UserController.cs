@@ -10,9 +10,9 @@ using System.Security.Cryptography;
 using AuthenticationGraphQL.Data;
 using Microsoft.AspNetCore.Authorization;
 using AuthenticationGraphQL.Services;
-using AuthenticationGraphQL.Dto;
-using AuthenticationGraphQL.Dto.LoginRequest;
-using AuthenticationGraphQL.Dto.Password;
+using AuthenticationGraphQL.Dto.User;
+using AuthenticationGraphQL.Dto.User.Password;
+using AuthenticationGraphQL.Dto.User.LoginRequest;
 
 namespace AuthenticationGraphQL.Controllers
 {
@@ -53,7 +53,7 @@ namespace AuthenticationGraphQL.Controllers
         // მიიღეთ კონკრეტული მომხმარებლის პროფილი მომხმარებლის სახელით.
         // საჭიროებს ავთენტიფიკაციას.
         // GET api/User/{username}
-        [HttpGet("User/{userid}"), Authorize]
+        [HttpGet("User/{userid}")]
         public async Task<IActionResult> GetUser(int userid)
         {
             if (!ModelState.IsValid)

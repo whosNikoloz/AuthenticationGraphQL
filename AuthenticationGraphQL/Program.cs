@@ -34,15 +34,19 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+/*
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+*/
 builder.Services.AddScoped<Query>();
 builder.Services.AddScoped<Mutation>();
 builder.Services.AddScoped<AppDbContext>();
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserFollowService, UserFollowService>();
 builder.Services.AddScoped<IStatiFuncs, StaticFuncs>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 

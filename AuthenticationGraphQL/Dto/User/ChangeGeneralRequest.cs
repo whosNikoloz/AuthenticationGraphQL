@@ -1,4 +1,4 @@
-﻿namespace AuthenticationGraphQL.Dto
+﻿namespace AuthenticationGraphQL.Dto.User
 {
     public class ChangeGeneralRequest
     {

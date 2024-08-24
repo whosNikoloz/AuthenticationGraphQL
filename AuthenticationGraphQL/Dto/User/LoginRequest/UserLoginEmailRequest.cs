@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AuthenticationGraphQL.Dto.LoginRequest
+namespace AuthenticationGraphQL.Dto.User.LoginRequest
 {
     public class UserLoginEmailRequest
     {
